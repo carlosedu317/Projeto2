@@ -1,0 +1,182 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fff5fa;
+    color: #444;
+}
+
+header {
+    background: #A02C6D;
+    color: white;
+    padding: 22px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 24px;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 750px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+    color: #A02C6D;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+h3 {
+    color: #A02C6D;
+    margin-bottom: 15px;
+}
+
+.dados-cliente,
+.endereco,
+.resumo {
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.dados-cliente p {
+    font-size: 16px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #A02C6D;
+}
+
+.produto-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.produto-item span:last-child {
+    font-weight: bold;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.total strong {
+    color: #A02C6D;
+}
+
+#btnFinalizar,
+.comprovante button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 8px;
+    background: #A02C6D;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#btnFinalizar:hover,
+.comprovante button:hover {
+    background: #7e2055;
+}
+
+#btnFinalizar:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+#mensagem {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.comprovante {
+    margin-top: 30px;
+    padding: 25px;
+    border: 2px dashed #A02C6D;
+    border-radius: 10px;
+    background: #fff5fa;
+}
+
+.comprovante p {
+    margin: 12px 0;
+}
+
+.comprovante h3 {
+    margin-top: 20px;
+    text-align: right;
+}
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+    header,
+    .container > h2,
+    .dados-cliente,
+    .endereco,
+    .resumo,
+    #btnFinalizar,
+    #mensagem,
+    .comprovante button {
+        display: none !important;
+    }
+
+    .container {
+        box-shadow: none;
+        margin: 0;
+        max-width: 100%;
+    }
+
+    .comprovante {
+        display: block !important;
+        border: none;
+    }
+}

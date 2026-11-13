@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gerenciar produtos | Gostosuras da Karla</title>
+
+    <link rel="stylesheet" href="gerenciarProdutos.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <a class="marca" href="home.html">
+            <span class="marca-icone">GK</span>
+
+            <span>
+                Gostosuras da Karla
+                <small>PAINEL DE PRODUTOS</small>
+            </span>
+        </a>
+
+        <nav>
+            <a href="home.html">Início</a>
+        </nav>
+
+    </header>
+
+
+    <main class="pagina">
+
+        <section class="boas-vindas">
+
+            <div>
+                <span class="eyebrow">ÁREA ADMINISTRATIVA</span>
+
+                <h1>Gerenciar <em>produtos</em></h1>
+
+                <p>Adicione, edite ou remova os produtos do catálogo.</p>
+            </div>
+
+            <button class="botao-principal" id="abrirNovo">
+                ＋ Novo produto
+            </button>
+
+        </section>
+
+
+        <!-- LISTAGEM DE PRODUTOS -->
+
+        <section class="painel">
+
+            <div class="painel-topo">
+
+                <div>
+                    <h2>Produtos cadastrados</h2>
+                    <p id="contador">Carregando produtos...</p>
+                </div>
+
+                <button class="botao-secundario" id="atualizarLista">
+                    ↻ Atualizar lista
+                </button>
+
+            </div>
+
+            <div id="mensagem" class="mensagem" role="status"></div>
+
+            <div class="tabela-wrap">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Imagem</th>
+                            <th>Produto</th>
+                            <th>Categoria</th>
+                            <th>Preço</th>
+                            <th>Estoque</th>
+                            <th>Validade</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="listaProdutos">
+
+                        <tr>
+                            <td colspan="7" class="vazio">
+                                Carregando...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- MODAL CADASTRO / EDIÇÃO -->
+
+    <div class="sobreposicao" id="modalProduto" aria-hidden="true">
+
+        <section class="janela" role="dialog" aria-modal="true" aria-labelledby="tituloModal">
+
+            <div class="janela-cabecalho">
+
+                <div>
+                    <span class="eyebrow">CATÁLOGO</span>
+
+                    <h2 id="tituloModal">Novo produto</h2>
+
+                    <p>Preencha as informações abaixo.</p>
+                </div>
+
+                <button class="fechar" id="fecharModal" aria-label="Fechar">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="formProduto" enctype="multipart/form-data">
+
+                <input type="hidden" id="produtoId">
+
+
+                <div class="campos">
+
+                    <label class="campo campo-largo">
+                        Nome do produto
+
+                        <input id="nome" type="text" placeholder="Ex.: Bolo de chocolate" required maxlength="120">
+                    </label>
+
+
+                    <label class="campo">
+                        Preço (R$)
+
+                        <input id="preco" type="number" min="0.01" step="0.01" placeholder="25.90" required>
+                    </label>
+
+
+                    <label class="campo">
+                        Quantidade
+
+                        <input id="quantidade" type="number" min="0" step="1" placeholder="10" required>
+                    </label>
+
+
+                    <label class="campo campo-largo">
+                        Descrição
+
+                        <textarea id="descricao" rows="3" placeholder="Descreva o produto..." required>
+                        </textarea>
+                    </label>
+
+
+                    <label class="campo">
+                        Tipo de produto
+
+                        <select id="tipoProduto" required>
+
+                            <option value="">Selecione</option>
+                            <option value="DOCE">Doce</option>
+                            <option value="SALGADO">Salgado</option>
+
+                        </select>
+                    </label>
+
+
+                    <label class="campo">
+                        Data de validade
+
+                        <input id="dataValidade" type="date" required>
+                    </label>
+
+
+                    <!-- CAMPO DE IMAGEM -->
+
+                    <div class="campo-imagem">
+                        <label for="imagem">URL da imagem:</label>
+                        <input type="url" id="imagem" placeholder="https://exemplo.com/imagem.jpg" required>
+
+                        <div class="preview-container">
+                            <img id="previewImagem" src="" alt="Prévia da imagem"
+                                style="display: none; max-width: 150px;">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="rodape-modal">
+
+                    <button type="button" class="botao-secundario" id="cancelarModal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="botao-principal" id="salvarProduto">
+                        Salvar produto
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </div>
+
+
+    <!-- MODAL EXCLUSÃO -->
+
+    <div class="sobreposicao" id="modalExcluir" aria-hidden="true">
+
+        <section class="janela janela-confirmacao" role="dialog" aria-modal="true" aria-labelledby="tituloExcluir">
+
+            <div class="icone-alerta">!</div>
+
+            <button class="fechar fechar-confirmacao" id="fecharExcluir" aria-label="Fechar">
+                ×
+            </button>
+
+            <h2 id="tituloExcluir">Excluir produto?</h2>
+
+            <p>
+                Tem certeza de que deseja excluir
+                <strong id="nomeExcluir"></strong>?
+                Essa ação não poderá ser desfeita.
+            </p>
+
+            <div class="rodape-modal">
+
+                <button class="botao-secundario" id="cancelarExcluir">
+                    Cancelar
+                </button>
+
+                <button class="botao-perigo" id="confirmarExcluir">
+                    Excluir produto
+                </button>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <script src="gerenciarProdutos.js"></script>
+
+</body>
+
+</html>

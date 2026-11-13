@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="carrinho.css">
+
+    <title>Meu Carrinho</title>
+</head>
+
+<body>
+
+    <!-- BOTÃO VOLTAR -->
+    <a href="home.html" style="display: inline-block;">
+        <img src="/imgs/voltar.png" alt="Voltar" class="btn-voltar">
+    </a>
+
+    <!-- CARRINHO -->
+    <div class="carrinho-container">
+
+        <h1 class="carrinho-titulo">
+            Meu Carrinho
+        </h1>
+
+        <!-- CARRINHO VAZIO -->
+        <div class="carrinho-vazio" id="carrinho-vazio">
+
+            <h2>
+                Seu carrinho está vazio
+            </h2>
+
+            <p>
+                Adicione produtos para continuar
+            </p>
+
+        </div>
+
+        <!-- LISTA DE PRODUTOS -->
+        <div class="carrinho-lista" id="carrinho-lista">
+
+            <!-- Os produtos serão adicionados dinamicamente pelo JavaScript -->
+
+        </div>
+
+        <!-- TOTAL -->
+        <div class="carrinho-total" id="carrinho-total" hidden>
+
+            <h2>
+                Total: <span id="valor-total">R$ 0,00</span>
+            </h2>
+
+            <a href="pagamento.html">
+            <button class="btn-finalizar" id="btn-finalizar" type="button">
+                Finalizar Pedido
+            </button>
+
+        </div>
+        </a>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src="carrinho.js"></script>
+
+</body>
+
+</html>
