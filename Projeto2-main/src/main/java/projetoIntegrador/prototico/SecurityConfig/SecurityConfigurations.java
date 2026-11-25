@@ -25,6 +25,12 @@ public class SecurityConfigurations {
 
                                 .authorizeHttpRequests(req -> {
 
+                                        req.requestMatchers(
+                                                "/swagger-ui/**",
+                                                "/swagger-ui.html",
+                                                "/v3/api-docs/**"
+                                        ).permitAll();
+
                                         // 1. ROTAS PÚBLICAS
                                         req.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
                                         req.requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll();
