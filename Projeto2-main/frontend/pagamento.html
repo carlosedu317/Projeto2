@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="pagamento.css">
+    <title>Pagamento</title>
+</head>
+<body>
+   <a href="pedido.html">
+  <img src="/imgs/voltar.png" alt="Voltar" class="btn-voltar">
+  </a> 
+
+
+<div class="pagamento-container">
+  <h1 class="pagamento-titulo">Forma de Pagamento</h1>
+  <p class="pagamento-subtitulo">Escolha como deseja pagar sua encomenda</p>
+
+  <div class="opcoes">
+
+    <!-- PIX -->
+    <div class="opcao-card" [class.selecionado]="formaSelecionada === 'pix'" (click)="selecionarForma('pix')">
+      <div class="opcao-icone">💚</div>
+      <h2>PIX</h2>
+      <p>Pagamento instantâneo</p>
+    </div>
+
+    <!-- CARTÃO -->
+    <div class="opcao-card" [class.selecionado]="formaSelecionada === 'cartao'" (click)="selecionarForma('cartao')">
+      <div class="opcao-icone">💳</div>
+      <h2>Cartão de Crédito</h2>
+      <p>Parcelamento disponível</p>
+    </div>
+
+  </div>
+
+  <!-- DADOS DO PIX -->
+
+    <div class="pix-container">
+      <h3>Chave PIX</h3>
+      <div class="pix-chave">
+        <span>gostosurasdakarla@gmail.com</span>
+      </div>
+      <p class="pix-instrucao">Copie a chave acima, abra o app do seu banco e realize o pagamento.</p>
+      <div class="qrcode-placeholder">
+        <span>QR Code</span>
+      </div>
+    </div>
+  
+
+  <!-- DADOS DO CARTÃO -->
+
+    <div class="cartao-container">
+      <div class="campo">
+        <label>Nome no cartão</label>
+        <input type="text" [(ngModel)]="cartao.nome" placeholder="Ex: Ana Silva" />
+      </div>
+      <div class="campo">
+        <label>Número do cartão</label>
+        <input
+          type="text"
+          [ngModel]="cartao.numero"
+          (input)="formatarNumero($event)"
+          placeholder="0000 0000 0000 0000"
+          maxlength="19"
+        />
+      </div>
+      <div class="campos-linha">
+        <div class="campo">
+          <label>Validade</label>
+          <input
+            type="text"
+            [ngModel]="cartao.validade"
+            (input)="formatarValidade($event)"
+            placeholder="MM/AA"
+            maxlength="5"
+          />
+        </div>
+        <div class="campo">
+          <label>CVV</label>
+          <input type="text" [(ngModel)]="cartao.cvv" placeholder="123" maxlength="3" />
+        </div>
+      </div>
+    </div>
+  
+
+  <!-- BOTÃO CONFIRMAR -->
+
+    <button class="btn-confirmar" (click)="confirmarPagamento()">
+      Confirmar Pagamento
+    </button>
+  
+
+</div>
+    
+</body>
+</html>

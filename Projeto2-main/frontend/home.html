@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gostosuras da Karla</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="topbar">
+        Feito com carinho para adoçar o seu dia 💗
+    </div>
+    <header class="header">
+        <a class="logo" href="home.html" aria-label="Gostosuras da Karla - início">
+            <span class="logo-icon">GK</span>
+            <span class="logo-text">Gostosuras <small>da Karla</small></span>
+        </a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button>
+        <nav class="navigation" id="navigation">
+            <a href="#home">Início</a>
+            <a href="#cardapio">Cardápio</a>
+            <a href="#destaques">Destaques</a>
+            <a href="#sobre">Sobre nós</a>
+            <a href="pedido.html">Meu Pedido</a>
+            <a href="gerenciarProdutos.html">Gerenciar Produtos</a>
+        </nav>
+
+        <div class="header-actions">
+            <a class="login-link" href="login.html">Entrar</a>
+            <a class="cart-button" href="carrinho.html">
+                <span aria-hidden="true">🛍</span> Meu Carrinho
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="inicio">
+            <div class="hero-content">
+                <span class="eyebrow">UM PEDACINHO DE FELICIDADE</span>
+                <h1>Seu dia merece<br><span>algo especial!</span></h1>
+                <p>Doces, bolos e delícias preparados com carinho para deixar seus momentos ainda mais gostosos.</p>
+                <a class="primary-button" href="#cardapio">CONHEÇA NOSSO CARDÁPIO</a>
+            </div>
+            <div class="hero-art" aria-label="Ilustração de doces">
+                <div class="art-circle"></div>
+                <div class="sweet sweet-one">🧁</div>
+                <div class="sweet sweet-two">🍓</div>
+                <div class="sweet sweet-three">🍰</div>
+                <div class="art-note">Feito com<br>amor ♡</div>
+            </div>
+        </section>
+
+        <section class="highlights section" id="destaques">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">ESCOLHA SUA DELÍCIA</span>
+                    <h2>O que você está procurando?</h2>
+                </div>
+            </div>
+            <div class="category-grid">
+                <a class="category-card category-pink" href="#cardapio" data-category="Doces">
+                    <span class="category-emoji">🍫</span><strong>Doces</strong><small>Um carinho em cada
+                        mordida</small>
+                </a>
+                <a class="category-card category-yellow" href="#cardapio" data-category="Bolos">
+                    <span class="category-emoji">🎂</span><strong>Bolos</strong><small>Para comemorar e
+                        compartilhar</small>
+                </a>
+                <a class="category-card category-lilac" href="#cardapio" data-category="Salgados">
+                    <span class="category-emoji">🥟</span><strong>Salgados</strong><small>Delícias para qualquer
+                        hora</small>
+                </a>
+                <a class="category-card category-green" href="#cardapio" data-category="Promoções">
+                    <span class="category-emoji">💝</span><strong>Promoções</strong><small>Mais sabor para o seu
+                        bolso</small>
+                </a>
+            </div>
+        </section>
+
+        <section class="menu-section section" id="cardapio">
+            <div class="section-heading menu-heading">
+                <div>
+                    <span class="eyebrow">PREPARADOS PARA VOCÊ</span>
+                    <h2>Nosso cardápio</h2>
+                    <p>Confira as gostosuras disponíveis na nossa loja.</p>
+                </div>
+
+                <label class="search-box">
+                    <span aria-hidden="true">⌕</span>
+                    <input type="search" id="pesquisaProduto" placeholder="Buscar produto..."
+                        aria-label="Buscar produto">
+                </label>
+            </div>
+
+            <div class="product-grid" id="listaDoces">
+                <h3>Doces</h3>
+                <p>Carregando doces...</p>
+            </div>
+
+            <div class="product-grid" id="listaSalgados">
+                <h3>Salgados</h3>
+                <p>Carregando salgados...</p>
+            </div>
+        </section>
+
+        <section class="about-banner" id="sobre">
+            <div class="about-decoration">♡</div>
+            <div>
+                <span class="eyebrow">GOSTOSURAS DA KARLA</span>
+                <h2>Pequenos momentos,<br>grandes gostosuras.</h2>
+                <p>Cada produto é escolhido e preparado para tornar seu dia mais doce.</p>
+            </div>
+            <a href="#cardapio" class="light-button">VER CARDÁPIO</a>
+        </section>
+    </main>
+    <section class="sobre" id="sobre">
+        <div class="sobre-container">
+            <div class="sobre-texto">
+                <span class="eyebrow">
+                    SOBRE A PROFISSIONAL
+                </span>
+                <h2>
+                    KARLIANA <span>ARAÚJO</span>
+                </h2>
+                <p class="descricao">
+                    Aos 39 anos, Karliana Araújo transformou uma paixão antiga
+                    pela confeitaria em uma trajetória construída com dedicação,
+                    criatividade e muito carinho. O que começou na cozinha de
+                    casa preparando doces para familiares e amigos, tornou-se
+                    uma experiência de mais de 6 anos criando sabores que
+                    marcam momentos especiais.
+                </p>
+                <div class="sobre-cards">
+                    <div class="sobre-card">
+                        <div class="card-icon">♡</div>
+                        <h3>Minha História</h3>
+                        <p>
+                            A confeitaria surgiu em uma fase desafiadora da vida,
+                            quando cozinhar se tornou uma forma de recomeço.
+                            Cada receita passou a representar cuidado,
+                            superação e amor pelo que faz.
+                        </p>
+                    </div>
+                    <div class="sobre-card">
+                        <div class="card-icon">🎯</div>
+                        <h3>Missão</h3>
+                        <p>
+                            Criar doces que transformem aniversários,
+                            comemorações e momentos simples em memórias
+                            inesquecíveis.
+                        </p>
+                    </div>
+                    <div class="sobre-card experiencia-card">
+                        <div class="card-icon">✿</div>
+                        <h3>Experiência</h3>
+                        <ul>
+                            <li>39 anos de história e dedicação.</li>
+                            <li>Mais de 6 anos trabalhando com confeitaria.</li>
+                            <li>Especialidade em doces artesanais.</li>
+                            <li>Atendimento personalizado.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sobre-imagem">
+                <div class="imagem-fundo"></div>
+                <img src="/imgs/image (1).png" alt="Karliana Araújo, confeiteira">
+                <div class="experiencia-badge">
+                    <strong>+6</strong>
+                    <span>ANOS CRIANDO<br>DOCES COM AMOR</span>
+                </div>
+                <div class="decoracao-coracao">♡</div>
+            </div>
+        </div>
+    </section>
+    <section class="avaliacoes" id="avaliacoes">
+        <div class="avaliacoes-container">
+            <div class="avaliacoes-cabecalho">
+                <span class="eyebrow">
+                    CARINHO QUE RECEBEMOS
+                </span>
+                <h2>
+                    O QUE NOSSOS <span>CLIENTES</span> DIZEM
+                </h2>
+                <p>
+                    Cada avaliação representa um carinho que recebemos
+                    de quem já experimentou nossas gostosuras.
+                </p>
+            </div>
+            <div class="avaliacoes-resumo">
+                <div class="resumo-item">
+                    <strong>4.9 <span>⭐</span></strong>
+                    <p>Nota média</p>
+                </div>
+                <div class="resumo-item">
+                    <strong>+500</strong>
+                    <p>Avaliações</p>
+                </div>
+                <div class="resumo-item">
+                    <strong>98%</strong>
+                    <p>Clientes satisfeitos</p>
+                </div>
+            </div>
+            <div class="avaliacoes-cards">
+                <article class="avaliacao-card">
+                    <div class="avaliacao-topo">
+                        <img src="/imgs/Ellipse 1.png" alt="Letycia Alves">
+                        <div>
+                            <h3>Letycia Alves</h3>
+                            <span>Cliente</span>
+                        </div>
+                    </div>
+                    <div class="estrelas">★★★★★</div>
+                    <p>
+                        "Eu pedi os doces para o aniversário da
+                        minha filha e simplesmente todo mundo
+                        elogiou! Vieram super bem embalados e
+                        fresquinhos com um sabor incrível."
+                    </p>
+                    <span class="avaliacao-rodape">♡ Cliente satisfeita</span>
+                </article>
+
+                <article class="avaliacao-card destaque">
+                    <div class="avaliacao-topo">
+                        <img src="/imgs/Ellipse 3.png" alt="Felipe Silva">
+                        <div>
+                            <h3>Felipe Silva</h3>
+                            <span>Cliente</span>
+                        </div>
+                    </div>
+                    <div class="estrelas">★★★★★</div>
+                    <p>
+                        "Já provei vários doces de outros lugares,
+                        mas esse foi disparado o melhor! O sabor
+                        é muito equilibrado, não é enjoativo e
+                        dá vontade de comer vários."
+                    </p>
+                    <span class="avaliacao-rodape">♡ Cliente satisfeito</span>
+                </article>
+
+                <article class="avaliacao-card">
+                    <div class="avaliacao-topo">
+                        <img src="/imgs/Ellipse 2.png" alt="Ana Silva">
+                        <div>
+                            <h3>Ana Silva</h3>
+                            <span>Cliente</span>
+                        </div>
+                    </div>
+                    <div class="estrelas">★★★★★</div>
+                    <p>
+                        "Além dos doces serem maravilhosos,
+                        o atendimento foi impecável. Tiraram
+                        todas as minhas dúvidas e a entrega
+                        chegou antes do esperado."
+                    </p>
+                    <span class="avaliacao-rodape">♡ Cliente satisfeita</span>
+                </article>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <a class="logo footer-logo" href="#inicio">
+            <span class="logo-icon">GK</span>
+            <span class="logo-text">Gostosuras <small>da Karla</small></span>
+        </a>
+        <p>Feito com carinho 💗</p>
+    </footer>
+    <script src="carrinho.js"></script>
+    <script src="catalogo.js"></script>
+
+</body>
+
+</html>

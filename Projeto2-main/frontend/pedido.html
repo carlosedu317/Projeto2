@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Finalizar Compra - Gostosuras da Karla</title>
+
+    <link rel="stylesheet" href="pedido.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Gostosuras da Karla</h1>
+        <a href="carrinho.html">Voltar ao carrinho</a>
+    </header>
+
+    <main class="container">
+
+        <h2>Finalizar Compra</h2>
+
+        <section class="dados-cliente">
+
+            <h3>Dados do Cliente</h3>
+
+            <p>
+                Cliente:
+                <strong id="nomeCliente">Carregando...</strong>
+            </p>
+
+        </section>
+
+        <section class="endereco">
+
+            <h3>Endereço de Entrega</h3>
+
+            <label for="enderecoEntrega">Informe seu endereço:</label>
+
+            <textarea
+                id="enderecoEntrega"
+                placeholder="Rua, número, bairro, cidade..."
+                required></textarea>
+
+        </section>
+
+        <section class="resumo">
+
+            <h3>Resumo do Pedido</h3>
+
+            <div id="listaProdutos">
+                Carregando produtos...
+            </div>
+
+            <div class="total">
+                <span>Total:</span>
+                <strong id="valorTotal">R$ 0,00</strong>
+            </div>
+
+        </section>
+
+
+        <a href="pagamento.html">
+        <button id="btnFinalizar">
+            Finalizar Pedido e Pagar
+        </button>
+        </a>
+
+        <p id="mensagem"></p>
+
+        <section id="comprovante" class="comprovante" hidden>
+
+            <h2>Pedido realizado!</h2>
+
+            <p>Seu pagamento foi aprovado.</p>
+
+            <p>
+                Número do pedido:
+                <strong id="numeroPedido"></strong>
+            </p>
+
+            <p>
+                Cliente:
+                <strong id="clienteComprovante"></strong>
+            </p>
+
+            <p>
+                Endereço:
+                <strong id="enderecoComprovante"></strong>
+            </p>
+
+            <div id="itensComprovante"></div>
+
+            <h3 id="totalComprovante"></h3>
+
+            <button onclick="window.print()">
+                Imprimir Comprovante
+            </button>
+
+        </section>
+
+    </main>
+
+    <script src="finalizarPedido.js"></script>
+
+</body>
+</html>
