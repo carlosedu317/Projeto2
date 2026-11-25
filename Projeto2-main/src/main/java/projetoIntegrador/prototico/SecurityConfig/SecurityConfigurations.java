@@ -1,3 +1,4 @@
+
 package projetoIntegrador.prototico.SecurityConfig;
 
 import org.springframework.context.annotation.Bean;
@@ -16,48 +17,69 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfigurations {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .cors(Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(req -> {
-                    // 1. ROTAS PÚBLICAS (Navegar, ver catálogo, login e cadastro)
-                    req.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
-                    req.requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll();
-                    req.requestMatchers(HttpMethod.GET, "/api/produtos/**").permitAll();
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                return http
+                                .cors(Customizer.withDefaults())
+                                .csrf(csrf -> csrf.disable())
 
-                    // 2. PRODUTOS: VENDEDOR e ADMIN adicionam, editam e removem
-                    req.requestMatchers(HttpMethod.POST, "/api/produtos/**").hasAnyRole("VENDEDOR", "ADMIN");
-                    req.requestMatchers(HttpMethod.PUT, "/api/produtos/**").hasAnyRole("VENDEDOR", "ADMIN");
-                    req.requestMatchers(HttpMethod.DELETE, "/api/produtos/**").hasAnyRole("VENDEDOR", "ADMIN");
+                                .authorizeHttpRequests(req -> {
 
-                    // 3. COMPRAS: CLIENTE (e VENDEDOR/ADMIN que herdam CLIENTE) compram e pagam
-                    req.requestMatchers(HttpMethod.POST, "/api/pedidos/**").hasRole("CLIENTE");
-                    req.requestMatchers(HttpMethod.POST, "/api/pagamentos/**").hasRole("CLIENTE");
+                                        // 1. ROTAS PÚBLICAS
+                                        req.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
+                                        req.requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll();
+                                        req.requestMatchers(HttpMethod.GET, "/api/produtos/**").permitAll();
 
-                    // 4. PROMOÇÃO DE CONTA: Cliente vira Vendedor
-                    req.requestMatchers(HttpMethod.PATCH, "/api/usuarios/tornar-vendedor").hasRole("CLIENTE");
+                                        // 2. PRODUTOS: VENDEDOR e ADMIN
+                                        req.requestMatchers(HttpMethod.POST, "/api/produtos/**")
+                                                        .hasAnyRole("VENDEDOR", "ADMIN");
 
-                    // 5. ADMINISTRAÇÃO: Somente ADMIN
-                    req.requestMatchers(HttpMethod.GET, "/api/usuarios").hasRole("ADMIN");
-                    req.requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasRole("ADMIN");
-                    req.requestMatchers(HttpMethod.DELETE, "/api/pagamentos/**").hasRole("ADMIN");
+                                        req.requestMatchers(HttpMethod.PUT, "/api/produtos/**")
+                                                        .hasAnyRole("VENDEDOR", "ADMIN");
 
-                    // 6. Qualquer outra rota exige apenas estar autenticado
-                    req.anyRequest().authenticated();
-                })
-                .httpBasic(Customizer.withDefaults()) // Permite testar fácil no Postman/Insomnia
-                .build();
-    }
+                                        req.requestMatchers(HttpMethod.DELETE, "/api/produtos/**")
+                                                        .hasAnyRole("VENDEDOR", "ADMIN");
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
-    }
+                                        // 3. COMPRAS: CLIENTE
+                                        req.requestMatchers(HttpMethod.POST, "/api/pedidos/**")
+                                                        .hasRole("CLIENTE");
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+                                        req.requestMatchers(HttpMethod.POST, "/api/pagamentos/**")
+                                                        .hasRole("CLIENTE");
+
+                                        // 4. CLIENTE PODE SE TORNAR VENDEDOR
+                                        req.requestMatchers(HttpMethod.PATCH, "/api/usuarios/tornar-vendedor")
+                                                        .hasRole("CLIENTE");
+
+                                        // 5. ADMINISTRAÇÃO: SOMENTE ADMIN
+                                        req.requestMatchers(HttpMethod.GET, "/api/usuarios")
+                                                        .hasRole("ADMIN");
+
+                                        req.requestMatchers(HttpMethod.DELETE, "/api/usuarios/**")
+                                                        .hasRole("ADMIN");
+
+                                        req.requestMatchers(HttpMethod.DELETE, "/api/pagamentos/**")
+                                                        .hasRole("ADMIN");
+
+                                        // 6. DEMAIS ROTAS EXIGEM AUTENTICAÇÃO
+                                        req.anyRequest().authenticated();
+
+                                })
+
+                                // Desativa autenticação HTTP Basic
+                                .httpBasic(httpBasic -> httpBasic.disable())
+                                .build();
+        }
+
+        @Bean
+        public AuthenticationManager authenticationManager(
+                        AuthenticationConfiguration configuration) throws Exception {
+
+                return configuration.getAuthenticationManager();
+        }
+
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 }
