@@ -1,6 +1,7 @@
 
 const API_URL = "http://localhost:8080/api/produtos";
 
+// Elementos da página
 const lista = document.getElementById("listaProdutos");
 const contador = document.getElementById("contador");
 const mensagem = document.getElementById("mensagem");
@@ -9,11 +10,38 @@ const modalProduto = document.getElementById("modalProduto");
 const modalExcluir = document.getElementById("modalExcluir");
 
 const formulario = document.getElementById("formProduto");
-
 const campoImagem = document.getElementById("imagem");
 const previewImagem = document.getElementById("previewImagem");
 
 let produtoParaExcluir = null;
+
+// Todas as requisições usam a sessão do usuário
+const CONFIG_SESSAO = {
+    credentials: "include"
+};
+
+// Lê respostas de erro mesmo quando o servidor não retorna JSON
+async function obterMensagemErro(resposta, mensagemPadrao) {
+    const texto = await resposta.text();
+
+    if (!texto) {
+        return `Erro ${resposta.status}: ${mensagemPadrao}`;
+    }
+
+    try {
+        const erro = JSON.parse(texto);
+
+        return (
+            erro.detail ||
+            erro.message ||
+            erro.error ||
+            erro.mensagem ||
+            `Erro ${resposta.status}: ${mensagemPadrao}`
+        );
+    } catch {
+        return `Erro ${resposta.status}: ${texto}`;
+    }
+}
 
 // Mensagens
 function mostrarMensagem(texto, tipo = "sucesso") {
@@ -67,6 +95,8 @@ function fecharModal() {
 }
 
 function abrirModalExcluir(produto) {
+    if (!produto) return;
+
     produtoParaExcluir = produto;
 
     document.getElementById("nomeExcluir").textContent = produto.nome;
@@ -98,9 +128,9 @@ function formatarData(data) {
     return `${dia}/${mes}/${ano}`;
 }
 
-// Proteção da exibição de textos no HTML
+// Proteção dos textos exibidos no HTML
 function escaparHTML(valor) {
-    return String(valor).replace(/[&<>"']/g, caractere => ({
+    return String(valor ?? "").replace(/[&<>"']/g, caractere => ({
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
@@ -120,10 +150,17 @@ async function carregarProdutos() {
     `;
 
     try {
-        const resposta = await fetch(API_URL);
+        const resposta = await fetch(API_URL, {
+            ...CONFIG_SESSAO
+        });
 
         if (!resposta.ok) {
-            throw new Error("Não foi possível buscar os produtos.");
+            throw new Error(
+                await obterMensagemErro(
+                    resposta,
+                    "Não foi possível buscar os produtos."
+                )
+            );
         }
 
         const produtos = await resposta.json();
@@ -203,7 +240,6 @@ async function carregarProdutos() {
         // Eventos de exclusão
         lista.querySelectorAll("[data-excluir]").forEach(botao => {
             botao.addEventListener("click", () => {
-
                 const produto = produtos.find(
                     p => String(p.id) === botao.dataset.excluir
                 );
@@ -231,10 +267,17 @@ async function carregarProdutos() {
 // Editar produto
 async function editarProduto(id) {
     try {
-        const resposta = await fetch(`${API_URL}/${id}`);
+        const resposta = await fetch(`${API_URL}/${id}`, {
+            ...CONFIG_SESSAO
+        });
 
         if (!resposta.ok) {
-            throw new Error("Não foi possível buscar o produto.");
+            throw new Error(
+                await obterMensagemErro(
+                    resposta,
+                    "Não foi possível buscar o produto."
+                )
+            );
         }
 
         const produto = await resposta.json();
@@ -248,19 +291,13 @@ async function editarProduto(id) {
         document.getElementById("produtoId").value = produto.id;
 
         document.getElementById("nome").value = produto.nome || "";
-
-        document.getElementById("preco").value =
-            produto.preco ?? "";
-
+        document.getElementById("preco").value = produto.preco ?? "";
         document.getElementById("quantidade").value =
             produto.quantidade ?? 0;
-
         document.getElementById("descricao").value =
             produto.descricao || "";
-
         document.getElementById("tipoProduto").value =
             produto.tipoProduto || "";
-
         document.getElementById("dataValidade").value =
             produto.dataValidade || "";
 
@@ -283,7 +320,6 @@ async function editarProduto(id) {
 
 // Abrir cadastro
 document.getElementById("abrirNovo").addEventListener("click", () => {
-
     formulario.reset();
 
     document.getElementById("produtoId").value = "";
@@ -316,44 +352,42 @@ document.getElementById("cancelarExcluir")
 document.getElementById("atualizarLista")
     .addEventListener("click", carregarProdutos);
 
-modalProduto.addEventListener("click", e => {
-    if (e.target === modalProduto) {
+modalProduto.addEventListener("click", evento => {
+    if (evento.target === modalProduto) {
         fecharModal();
     }
 });
 
-modalExcluir.addEventListener("click", e => {
-    if (e.target === modalExcluir) {
+modalExcluir.addEventListener("click", evento => {
+    if (evento.target === modalExcluir) {
         fecharModalExcluir();
     }
 });
 
-document.addEventListener("keydown", e => {
-    if (e.key === "Escape") {
+document.addEventListener("keydown", evento => {
+    if (evento.key === "Escape") {
         fecharModal();
         fecharModalExcluir();
     }
 });
 
 // Cadastrar ou atualizar produto
-formulario.addEventListener("submit", async event => {
-
-    event.preventDefault();
+formulario.addEventListener("submit", async evento => {
+    evento.preventDefault();
 
     const id = document.getElementById("produtoId").value;
 
     const produto = {
-        nome: document.getElementById("nome").value,
+        nome: document.getElementById("nome").value.trim(),
         preco: Number(document.getElementById("preco").value),
         quantidade: Number(document.getElementById("quantidade").value),
-        descricao: document.getElementById("descricao").value,
+        descricao: document.getElementById("descricao").value.trim(),
         tipoProduto: document.getElementById("tipoProduto").value,
         dataValidade: document.getElementById("dataValidade").value,
-        imagem: campoImagem.value
+        imagem: campoImagem.value.trim()
     };
 
     const botao = document.getElementById("salvarProduto");
-
     const editando = Boolean(id);
 
     botao.disabled = true;
@@ -369,17 +403,18 @@ formulario.addEventListener("submit", async event => {
                     "Content-Type": "application/json"
                 },
 
+                credentials: "include",
+
                 body: JSON.stringify(produto)
             }
         );
 
         if (!resposta.ok) {
-            const erro = await resposta.json();
-
             throw new Error(
-                erro.detail ||
-                erro.message ||
-                "Não foi possível salvar o produto."
+                await obterMensagemErro(
+                    resposta,
+                    "Não foi possível salvar o produto."
+                )
             );
         }
 
@@ -420,12 +455,18 @@ document.getElementById("confirmarExcluir")
             const resposta = await fetch(
                 `${API_URL}/${produtoParaExcluir.id}`,
                 {
-                    method: "DELETE"
+                    method: "DELETE",
+                    credentials: "include"
                 }
             );
 
             if (!resposta.ok) {
-                throw new Error("Não foi possível excluir o produto.");
+                throw new Error(
+                    await obterMensagemErro(
+                        resposta,
+                        "Não foi possível excluir o produto."
+                    )
+                );
             }
 
             fecharModalExcluir();

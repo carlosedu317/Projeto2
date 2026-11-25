@@ -1,14 +1,19 @@
 package projetoIntegrador.prototico.controller;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import projetoIntegrador.prototico.dto.LoginRequest;
 import projetoIntegrador.prototico.model.Usuario;
@@ -16,55 +21,66 @@ import projetoIntegrador.prototico.model.Usuario;
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(
-    origins = {"http://localhost:5500", "http://127.0.0.1:5500"},
+    origins = {
+        "http://localhost:5500",
+        "http://127.0.0.1:5500"
+    },
     allowCredentials = "true"
 )
 public class AutenticacaoController {
-    /* adição de construtor */
+
     private final AuthenticationManager manager;
 
-    private final HttpSessionSecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
+    private final HttpSessionSecurityContextRepository repository =
+        new HttpSessionSecurityContextRepository();
 
-    AutenticacaoController(AuthenticationManager manager) {
+    public AutenticacaoController(AuthenticationManager manager) {
         this.manager = manager;
     }
 
-    /* até aqui */
     @PostMapping("/login")
     public ResponseEntity<?> efetuarLogin(
             @RequestBody @Valid LoginRequest dados,
             HttpServletRequest request,
             HttpServletResponse response) {
 
-        var authToken = new UsernamePasswordAuthenticationToken(
-                dados.email(),
-                dados.senha());
+        var token = new UsernamePasswordAuthenticationToken(
+            dados.email(),
+            dados.senha()
+        );
 
-        var authentication = manager.authenticate(authToken);
+        Authentication autenticacao = manager.authenticate(token);
 
-        var context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authentication);
+        SecurityContext contexto =
+            SecurityContextHolder.createEmptyContext();
 
-        SecurityContextHolder.setContext(context);
+        contexto.setAuthentication(autenticacao);
+        SecurityContextHolder.setContext(contexto);
 
-        securityContextRepository.saveContext(context, request, response);
+        repository.saveContext(contexto, request, response);
 
-        Usuario usuarioLogado = (Usuario) authentication.getPrincipal();
+        Usuario usuario = (Usuario) autenticacao.getPrincipal();
 
-        return ResponseEntity.ok(java.util.Map.of(
-                "id", usuarioLogado.getId(),
-                "nome", usuarioLogado.getNome(),
-                "email", usuarioLogado.getEmail(),
-                "tipoUsuario", usuarioLogado.getTipoUsuario().name()));
+        return ResponseEntity.ok(Map.of(
+            "id", usuario.getId(),
+            "nome", usuario.getNome(),
+            "email", usuario.getEmail(),
+            "tipoUsuario", usuario.getTipoUsuario().name()
+        ));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(HttpServletRequest request) {
-        var session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
+    public ResponseEntity<Void> logout(
+            HttpServletRequest request) {
+
         SecurityContextHolder.clearContext();
+
+        HttpSession sessao = request.getSession(false);
+
+        if (sessao != null) {
+            sessao.invalidate();
+        }
+
         return ResponseEntity.noContent().build();
     }
 }
